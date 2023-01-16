@@ -1,4 +1,5 @@
-import { getExtensions, getUsers, getStatusOfUser } from './lib/api'
+import { getExtensions, getUsers } from './lib/api'
+import { getStatusOfUser } from './utils'
 import logger from 'node-color-log'
 import DaemonState from './state'
 import UsersState from './users'
@@ -56,7 +57,6 @@ async function wsStart() {
 
   // WS: start ws connection to ws
   const ws = initWs()
-  logger.color('red').log()
   ws.on('connect', () => {
     logger.info('socket connected')
     loginWs(ws)
@@ -115,11 +115,11 @@ function checkPresence() {
       apiMainPresence && logger.warn(`API main presence ${user}: ${apiMainPresence}`)
       // Log conversations length
       const wsConversations = wsState.getUserConversations(user)
-      if (wsConversations.length > 0) {
+      if (wsConversations && wsConversations.length > 0) {
         logger.warn(`WS user conversations length ${user}: ${wsConversations.length}`)
       }
       const apiConversations = apiState.getUserConversations(user)
-      if (apiConversations.length > 0) {
+      if (apiConversations && apiConversations.length > 0) {
         logger.warn(`API user conversations length ${user}: ${apiConversations.length}`)
       }
       // Log extensions statuses
