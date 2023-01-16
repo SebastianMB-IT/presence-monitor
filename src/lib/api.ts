@@ -51,6 +51,12 @@ export async function getUsers() {
     })
     return data
   } catch (error) {
+    if (axios.isAxiosError(error)) {
+      logger.error('error message: ', error.message)
+    } else {
+      logger.error('unexpected error: ', 'error')
+      return 'An unexpected error occurred'
+    }
     logger.error(error)
   }
 }
