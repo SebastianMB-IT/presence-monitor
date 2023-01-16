@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "start": "node ./dist/index.js > ./log/monitor.log",
+    "start": "node ./dist/index.js >> ./log/monitor.log",
     "serve": "npm run build && npm start",
     "dev": "nodemon -e ts --exec \"npm run serve\" --ignore ./dist"
   },

@@ -16,21 +16,23 @@ async function apiRequests(initial) {
   const usersRes = await getUsers()
 
   // API: add users to state
-  usersState.setUsers(Object.keys(usersRes))
+  if (usersRes) {
+    usersState.setUsers(Object.keys(usersRes))
 
-  Object.values(usersRes).forEach((user) => {
-    // API: add extensions to state
-    const exts = user.endpoints.extension.map((ext) => ext.id)
-    usersState.addExtensions(exts)
+    Object.values(usersRes).forEach((user) => {
+      // API: add extensions to state
+      const exts = user.endpoints.extension.map((ext) => ext.id)
+      usersState.addExtensions(exts)
 
-    // API: add user's main presences
-    apiState.setUsersMainPresence(user.username, user.mainPresence)
-  })
+      // API: add user's main presences
+      apiState.setUsersMainPresence(user.username, user.mainPresence)
+    })
+  }
 
   // API: add conversations and telephonic status to state
   usersState.getUsers().forEach((user, i) => {
-    const usersExtsData = []
-    usersState.getExtensions()[i].forEach((ext) => {
+    const usersExtsData: string[] = []
+    usersState.getExtensions()[i].forEach((ext: string) => {
       if (Object.values(extensionsRes[ext].conversations).length > 0) {
         for (let conv in extensionsRes[ext].conversations) {
           apiState.addUsersConversations(user, {

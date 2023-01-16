@@ -14,13 +14,16 @@ const agent = new https.Agent({
  */
 export async function getExtensions() {
   try {
-    const { data } = await axios.get<ExtensionsTypes>(`${config.base_api_url}/astproxy/extensions`, {
-      headers: {
-        Accept: 'application/json',
-        Authorization: `${config.username}:${config.auth_token}`,
+    const { data } = await axios.get<ExtensionsTypes>(
+      `${config.base_api_url}/astproxy/extensions`,
+      {
+        headers: {
+          Accept: 'application/json',
+          Authorization: `${config.username}:${config.auth_token}`,
+        },
+        httpsAgent: agent,
       },
-      httpsAgent: agent,
-    })
+    )
     return data
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -58,7 +61,7 @@ export async function getUsers() {
  * @returns
  */
 export const getStatusOfUser = function (extensions) {
-  var statuses = []
+  var statuses: string[] = []
   extensions.forEach((ext) => {
     statuses.push(ext.status)
   })
@@ -76,4 +79,3 @@ export const getStatusOfUser = function (extensions) {
     return 'offline'
   }
 }
-
