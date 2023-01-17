@@ -106,7 +106,9 @@ function checkPresence() {
     // Log when main presence is busy and telephonic status is online
     if (
       (apiTelephonicStatus === 'online' && apiMainPresence === 'busy') ||
-      (wsTelephonicStatus === 'online' && wsMainPresence === 'busy')
+      (wsTelephonicStatus === 'online' && wsMainPresence === 'busy') ||
+      (apiTelephonicStatus === 'online' && wsMainPresence === 'busy') ||
+      (wsTelephonicStatus === 'online' && apiMainPresence === 'busy')
     ) {
       // Log status and main presence
       wsTelephonicStatus && logger.warn(`WS telephonic status ${user}: ${wsTelephonicStatus}`)
