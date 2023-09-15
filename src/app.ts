@@ -143,6 +143,7 @@ async function daemonStart() {
   setInterval(async () => {
     await apiRequests(false)
     checkPresence()
+    logger.info('alive')
   }, 5000)
 }
 
